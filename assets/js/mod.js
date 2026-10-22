@@ -9,14 +9,15 @@ async function renderMod() {
         return;
     }
 
-    const mod = await fetch("https://api.modrinth.com/v2/project/" + id)
-        .then(res => res.json());
+    try {
+        const mod = await fetch("https://api.modrinth.com/v2/project/" + id)
+            .then(res => res.json());
 
-    status.textContent = "";
+        status.textContent = "";
 
-    document.title = mod.title;
+        document.title = mod.title;
 
-    detail.innerHTML = `
+        detail.innerHTML = `
         <img src="${mod.icon_url || ''}" alt="${mod.title} icon">
         <h2>${mod.title}</h2>
         <p>${mod.description}</p>
@@ -30,6 +31,9 @@ async function renderMod() {
         </ul>
         <a href="https://modrinth.com/mod/${mod.slug}" target="_blank">View on Modrinth</a>
     `;
+    } catch(e) {
+        status.textContent = "failed to load mod: " + e;
+    }
 }
 
 renderMod();
