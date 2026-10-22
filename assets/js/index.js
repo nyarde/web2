@@ -3,11 +3,12 @@ const status = document.getElementById("status");
 
 async function renderGrid() {
     try {
-        const data = await fetch("https://api.modrinth.com/v2/search")
+        const data = await fetch("https://api.modrinth.com/v2/search?limit=100")
             .then(res => res.json());
 
         status.textContent = "";
 
+        grid.replaceChildren();
         data.hits.forEach(mod => grid.appendChild(createCard(mod)));
     } catch(e) {
         status.textContent = "failed to load mods: " + e;
